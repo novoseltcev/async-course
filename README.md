@@ -9,3 +9,6 @@
 
 ### Модель доменов
 ![domain_model.png](./docs/domain_model/diagram.png)
+
+### Событийная модель сервисов
+![events.png](./docs/events/diagram.png)
