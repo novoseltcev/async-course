@@ -1,0 +1,12 @@
+{
+    "editor.fontSize": 14,
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": true,
+            "source.organizeImports.ruff": true
+        }
+    },
+    "python.formatting.provider": "black",
+    "python.analysis.typeCheckingMode": "basic",
+}
