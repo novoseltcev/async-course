@@ -3,8 +3,9 @@ from typing import cast
 
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.types import ASGIApp
 
-from app.core.settings import Settings
+from app.settings import Settings
 
 
 class Application(FastAPI):
@@ -15,14 +16,19 @@ class Application(FastAPI):
             description=settings.DESCRIPTION,
             version=settings.VERSION,
             debug=settings.DEBUG,
+            openapi_url='/srv/openapi.json',
+            docs_url='/srv/docs',
+            redoc_url='/srv/redoc',
+            swagger_ui_oauth2_redirect_url='/srv/docs/oauth2-redirect',
         )
 
-        self.add_middleware(
-            CORSMiddleware,
-            allow_origin_regex=settings.ORIGIN_REGEX,
+    def build_middleware_stack(self) -> ASGIApp:
+        return CORSMiddleware(
+            app=super().build_middleware_stack(),
             allow_credentials=True,
             allow_methods=['*'],
             allow_headers=['*'],
+            allow_origin_regex=self.settings.ORIGIN_REGEX,
         )
 
     def register_endpoints(self, *modules: ModuleType) -> None:

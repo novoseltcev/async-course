@@ -2,7 +2,7 @@ import uvicorn
 
 from app.api import srv, v1
 from app.application import Application
-from app.core.settings import get_settings
+from app.settings import get_settings
 
 app = Application(get_settings())
 app.register_endpoints(srv, v1)
