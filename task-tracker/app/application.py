@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from types import ModuleType
 from typing import cast
 
@@ -9,7 +10,7 @@ from app.settings import Settings
 
 
 class Application(FastAPI):
-    def __init__(self, settings: Settings) -> None:
+    def __init__(self, settings: Settings, on_startup: list[Callable]) -> None:
         self.settings = settings
         super().__init__(
             title=settings.PROJECT_NAME,
@@ -20,6 +21,7 @@ class Application(FastAPI):
             docs_url='/srv/docs',
             redoc_url='/srv/redoc',
             swagger_ui_oauth2_redirect_url='/srv/docs/oauth2-redirect',
+            on_startup=on_startup,
         )
 
     def build_middleware_stack(self) -> ASGIApp:

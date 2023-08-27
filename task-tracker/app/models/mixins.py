@@ -28,6 +28,15 @@ class InternalEntityMixin(IDMixin):
     )
 
 
+class ExternalEntityMixin(Base):
+    __abstract__ = True
+
+    pid: Mapped[UUID] = mapped_column(
+        sa.UUID(as_uuid=True),
+        primary_key=True,
+    )
+
+
 class TimestampMixin(Base):
     '''System labels about the entity and its life cycle'''
 

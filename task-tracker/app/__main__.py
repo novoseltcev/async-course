@@ -1,11 +1,12 @@
 import uvicorn
 
-from app.api import srv, v1
+from app import api
 from app.application import Application
+from app.consumer import start_consumer
 from app.settings import get_settings
 
-app = Application(get_settings())
-app.register_endpoints(srv, v1)
+app = Application(get_settings(), [start_consumer])
+app.register_endpoints(api)
 
 if __name__ == '__main__':
     uvicorn.run(
