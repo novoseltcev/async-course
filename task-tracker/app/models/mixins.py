@@ -9,17 +9,31 @@ class Base(DeclarativeBase):
     '''Base orm object to register metadata'''
 
 
-class UUIDMixin(Base):
-    '''Single PK as uuid'''
+class IDMixin(Base):
+    '''Single PK as id'''
 
     __abstract__ = True
 
-    uuid: Mapped[UUID] = mapped_column(
+    id_: Mapped[int] = mapped_column('id', primary_key=True, index=True)
+
+
+class InternalEntityMixin(IDMixin):
+    __abstract__ = True
+
+    pid: Mapped[UUID] = mapped_column(
         sa.UUID(as_uuid=True),
         default=uuid4,
         server_default=sa.text('gen_random_uuid()'),
+        unique=True,
+    )
+
+
+class ExternalEntityMixin(Base):
+    __abstract__ = True
+
+    pid: Mapped[UUID] = mapped_column(
+        sa.UUID(as_uuid=True),
         primary_key=True,
-        index=True,
     )
 
 
